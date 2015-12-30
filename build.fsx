@@ -74,8 +74,8 @@ type Project =
       Folder: string
       ProjectFile: string }
 
-let projects = 
-    ["Hopac.Core"; "Hopac"; "Hopac.Platform.Net"]
+let projects =
+    ["Hopac.Core"; "Hopac"; "Hopac.Platform.Net"; "Hopac.Platform.Pcl"]
     |> List.map (fun projectName ->
         let folder = "Libs" @@ projectName
         let projectType, projectFile = 
@@ -122,16 +122,23 @@ Target "Clean" <| fun _ ->
 Target "Build" <| fun _ ->
     projects
     |> List.map (fun project -> project.ProjectFile)
-    |> MSBuildRelease "bin" "Rebuild"
+    |> MSBuildRelease buildDir "Rebuild"
     |> ignore
 
 // --------------------------------------------------------------------------------------
 // Build NuGet packages
 
 Target "NuGet" <| fun _ ->
-    let nugetlibDir = nugetDir @@ "lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1"
-    CleanDir nugetlibDir
-    CopyDir nugetlibDir "bin" (fun file -> file.Contains "FSharp.Core." |> not)
+    let withExts projs exts =
+      projs |> List.collect (fun proj -> exts |> List.map (fun ext -> buildDir @@ (proj + ext)))
+    let coreFiles = withExts ["Hopac";"Hopac.Core"] [".dll";".pdb";".xml"]
+    let platformFiles p = withExts [p] [".dll";".pdb"]
+    [ "net45", "Hopac.Platform.Net"
+      "portable-net45+netcore45+MonoAndroid1+MonoTouch1", "Hopac.Platform.Pcl" ]
+    |> List.iter (fun (libDir,platform) ->
+      let nugetlibDir = nugetDir @@ "lib" @@ libDir
+      CleanDir nugetlibDir
+      CopyFiles nugetlibDir (coreFiles @ platformFiles platform))
 
     NuGet (fun p ->
         { p with

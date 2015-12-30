@@ -6,7 +6,8 @@ using System.Runtime.InteropServices;
 
 // Hopac.Core is really only intended to be used by other Hopac libraries.
 [assembly: InternalsVisibleTo("Hopac")]
-[assembly: InternalsVisibleTo("Hopac.Platform")]
+[assembly: InternalsVisibleTo("Hopac.Platform.Net")]
+[assembly: InternalsVisibleTo("Hopac.Platform.Pcl")]
 
 namespace Hopac
 {

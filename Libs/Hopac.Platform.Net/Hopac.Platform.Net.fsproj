@@ -7,8 +7,8 @@
     <ProjectGuid>{B285AEB6-FC96-4212-B7A2-6B73597CE607}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Hopac.Platform</RootNamespace>
-    <AssemblyName>Hopac.Platform</AssemblyName>
-    <Name>Hopac.Platform</Name>
+    <AssemblyName>Hopac.Platform.Net</AssemblyName>
+    <Name>Hopac.Platform.Net</Name>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
