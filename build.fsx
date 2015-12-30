@@ -129,7 +129,7 @@ Target "Build" <| fun _ ->
 // Build NuGet packages
 
 Target "NuGet" <| fun _ ->
-    let nugetlibDir = nugetDir @@ "lib/net45"
+    let nugetlibDir = nugetDir @@ "lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1"
     CleanDir nugetlibDir
     CopyDir nugetlibDir "bin" (fun file -> file.Contains "FSharp.Core." |> not)
 
